@@ -9,8 +9,15 @@ COLORRESET='\033[0m'
 TITLE=$2
 file_extension=()
 
+for i in $@; do
+  if [[ $i == '--help' ]] || [[ $i == '-h' ]]; then
+    printf "${GREEN}HELP!${COLORRESET}\n"
+    exit;
+  fi
+done
+
 if [[ $# -lt 2 ]]; then
-  printf "${RED}Syntax error! ${COLORRESET}Please enter a file extension.\n"
+  printf "${RED}Syntax error! ${COLORRESET}Try to run this script with the argument ${GREEN}--help ${COLORRESET}for more information.\n"
 else
   for i in $@; do
     case $i in
