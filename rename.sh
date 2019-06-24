@@ -6,6 +6,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 COLORRESET='\033[0m'
 
+EXTENSION=$1
 TITLE=$2
 
 file_extension=()
@@ -25,7 +26,7 @@ extend_old_file_name() {
 }
 
 play_it_safe() {
-  read -p "Do you really want to overwrite all .${file_extension[@]} files in this directory? [Y/n] " REPLY
+  read -p "Do you really want to overwrite all .$EXTENSION files in this directory? [Y/n] " REPLY
 }
 
 for i in $@; do
@@ -40,8 +41,7 @@ if [[ $# -lt 2 ]]; then
 else
   for i in $@; do
     case $i in
-    -png) file_extension+=('png') ;;
-    -jpg) file_extension+=('jpg') ;;
+    $EXTENSION) file_extension+=($EXTENSION) ;;
     esac
   done
 
