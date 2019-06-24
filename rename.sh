@@ -24,6 +24,10 @@ extend_old_file_name() {
   done
 }
 
+play_it_safe() {
+  read -p "Do you really want to overwrite all .${file_extension[@]} files in this directory? [Y/n] " REPLY
+}
+
 for i in $@; do
   if [[ $i == '--help' ]] || [[ $i == '-h' ]]; then
     printf "${GREEN}HELP!${COLORRESET}\n"
@@ -41,9 +45,13 @@ else
     esac
   done
 
-  if [[ $3 == '-e' ]]; then
-    extend_old_file_name 
-  else replace_old_file_name 
+  play_it_safe
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if [[ $3 == '-e' ]]; then
+      extend_old_file_name 
+    else replace_old_file_name 
+    fi
+  else printf "${CYAN}The process was canceled. No file is renamed.${COLORRESET}\n"
   fi
 
 fi
