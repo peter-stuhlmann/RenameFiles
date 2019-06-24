@@ -7,7 +7,14 @@ RED='\033[0;31m'
 COLORRESET='\033[0m'
 
 TITLE=$2
+
 file_extension=()
+
+extend_old_file_name() {
+  for i in *.${file_extension[@]}
+    do mv "$i" "${TITLE}-${i/.${file_extension[@]}}".${file_extension[@]}    
+  done
+}
 
 for i in $@; do
   if [[ $i == '--help' ]] || [[ $i == '-h' ]]; then
@@ -26,8 +33,6 @@ else
     esac
   done
 
-  for i in *.${file_extension[@]}
-    do mv "$i" "${TITLE}-${i/.${file_extension[@]}}".${file_extension[@]}
-  done
+  extend_old_file_name 
 
 fi
