@@ -10,6 +10,14 @@ TITLE=$2
 
 file_extension=()
 
+replace_old_file_name() {
+  count=1
+  for i in *.${file_extension[@]}
+    do mv "$i" "${TITLE}-${count}".${file_extension[@]}
+    count=$((count+1));
+  done
+}
+
 extend_old_file_name() {
   for i in *.${file_extension[@]}
     do mv "$i" "${TITLE}-${i/.${file_extension[@]}}".${file_extension[@]}    
@@ -33,6 +41,9 @@ else
     esac
   done
 
-  extend_old_file_name 
+  if [[ $3 == '-e' ]]; then
+    extend_old_file_name 
+  else replace_old_file_name 
+  fi
 
 fi
