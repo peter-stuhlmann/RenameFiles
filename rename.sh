@@ -12,9 +12,9 @@ TITLE=$2
 file_extension=()
 
 replace_old_file_name() {
-  count=1
+  count=10001
   for i in *.${file_extension[@]}
-    do mv "$i" "${TITLE}-${count}".${file_extension[@]}
+    do mv "$i" "${TITLE}-${count:1}".${file_extension[@]}
     count=$((count+1));
   done
 }
