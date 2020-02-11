@@ -11,15 +11,24 @@ TITLE=$2
 
 file_extension=()
 
+remove_empty_spaces() {
+  for i in *.${file_extension[@]};
+  do FILENAME="$(echo -e "${i}" | sed 's/ /_/g')"
+  mv "$i" "$FILENAME"
+done
+}
+
 replace_old_file_name() {
   count=10001
-  for i in *.${file_extension[@]}
-    do mv "$i" "${TITLE}-${count:1}".${file_extension[@]}
+  printf "${CYAN}Renaming files ... \n${COLORRESET}"
+  for i in *.${file_extension[@]};
+    do mv "$i" "${TITLE}-${count:1}.${file_extension[@]}"
     count=$((count+1));
   done
 }
 
 extend_old_file_name() {
+  printf "${CYAN}Renaming files ... \n${COLORRESET}"
   for i in *.${file_extension[@]}
     do mv "$i" "${TITLE}-${i/.${file_extension[@]}}".${file_extension[@]}    
   done
@@ -48,8 +57,10 @@ else
   play_it_safe
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     if [[ $3 == '-e' ]]; then
-      extend_old_file_name 
-    else replace_old_file_name 
+      extend_old_file_name
+    else 
+      remove_empty_spaces 
+      replace_old_file_name 
     fi
   else printf "${CYAN}The process was canceled. No file is renamed.${COLORRESET}\n"
   fi
